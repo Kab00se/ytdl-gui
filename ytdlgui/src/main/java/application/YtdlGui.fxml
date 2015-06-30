@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<?import controller.MenuBarController?>
+
+<VBox fx:controller="controller.YtdlGuiController" prefHeight="450.0"
+	prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<fx:include fx:id="menubar" source="YtMenuBar.fxml" />
+		<SplitPane orientation="HORIZONTAL" dividerPositions="0.6" prefHeight="600.0"
+			prefWidth="800.0">
+			<items>
+				<GridPane>
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+							prefWidth="100.0" />
+						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+							prefWidth="100.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" />
+						<RowConstraints minHeight="10.0" />
+						<RowConstraints minHeight="10.0" />
+					</rowConstraints>
+					<children>
+						<HBox alignment="CENTER" maxHeight="150.0" prefHeight="100.0"
+							prefWidth="300.0" spacing="15.0" GridPane.columnSpan="2147483647">
+							<children>
+								<TextField fx:id="urlField" maxWidth="600.0"
+									minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="400.0"
+									promptText="URL" />
+								<Button mnemonicParsing="false" onAction="#download"
+									text="Download" />
+							</children>
+							<GridPane.margin>
+								<Insets />
+							</GridPane.margin>
+						</HBox>
+						<TitledPane animated="false" collapsible="true"
+							prefHeight="300.0" prefWidth="500.0" text="Playlist Options"
+							GridPane.rowIndex="1">
+							<content>
+								<VBox alignment="TOP_CENTER" spacing="10.0">
+									<children>
+										<HBox alignment="CENTER" spacing="10.0">
+											<children>
+												<Label alignment="CENTER" text="Range:" />
+												<TextField fx:id="rangeFromField" prefHeight="25.0"
+													prefWidth="45.0" promptText="From" />
+												<TextField fx:id="rangeToField" prefHeight="25.0"
+													prefWidth="45.0" promptText="To" />
+											</children>
+										</HBox>
+										<CheckBox fx:id="matchRegexCheckBox" mnemonicParsing="false"
+											text="Match Regex" />
+										<TextField fx:id="matchRegexField" promptText="Regular Expression" />
+										<CheckBox fx:id="rejectRegexCheckBox" alignment="CENTER"
+											mnemonicParsing="false" text="Reject Regex" />
+										<TextField fx:id="rejectRegexField" layoutX="20.0"
+											layoutY="62.0" promptText="Regular Expression" />
+									</children>
+								</VBox>
+							</content>
+						</TitledPane>
+						<TitledPane animated="false" collapsible="false"
+							prefHeight="300.0" prefWidth="500.0" text="Output Options"
+							GridPane.columnIndex="1" GridPane.rowIndex="1">
+							<content>
+								<VBox alignment="TOP_CENTER" spacing="10.0">
+									<children>
+										<Button mnemonicParsing="false" onAction="#selectOutputFolder"
+											text="Select Folder" />
+										<TextField fx:id="outputDirectoryField" minWidth="100.0"
+											prefWidth="220.0" promptText="Output Directory" />
+
+										<Label alignment="CENTER" text="File Template" />
+										<TextField fx:id="outputFileTemplateField" minWidth="140.0"
+											prefWidth="250.0" promptText="File Template" text="\%(title)s.%(ext)s" />
+									</children>
+								</VBox>
+							</content>
+						</TitledPane>
+						<TitledPane animated="false" collapsible="false"
+							prefHeight="150.0" prefWidth="500.0" text="Download Options"
+							GridPane.rowIndex="2">
+							<content>
+								<VBox alignment="TOP_LEFT" spacing="10.0">
+									<children>
+										<HBox alignment="CENTER_LEFT" spacing="10.0">
+											<children>
+												<CheckBox fx:id="limitRateCheckBox"
+													mnemonicParsing="false" text="Max download rate" />
+												<TextField fx:id="limitRateField" prefWidth="85"
+													editable="false" promptText="Ex. 50K, 4.2M" />
+											</children>
+										</HBox>
+										<CheckBox fx:id="extractAudioCheckBox" alignment="CENTER"
+											mnemonicParsing="false" text="Extract Audio Only" />
+									</children>
+								</VBox>
+							</content>
+						</TitledPane>
+						<TitledPane animated="false" collapsible="false"
+							prefHeight="150.0" prefWidth="500.0" text="Verbosity Options"
+							GridPane.columnIndex="1" GridPane.rowIndex="2">
+							<content>
+								<VBox alignment="TOP_LEFT" spacing="10.0">
+									<children>
+										<CheckBox fx:id="ignoreErrorsCheckBox"
+											mnemonicParsing="false" text="Ignore Errors" />
+										<CheckBox fx:id="verboseCheckBox" mnemonicParsing="false"
+											text="Verbose" />
+									</children>
+								</VBox>
+							</content>
+						</TitledPane>
+					</children>
+				</GridPane>
+				<TextArea fx:id="outputTextArea" wrapText="true" editable="false"
+					minWidth="150.0" prefWidth="300.0" />
+			</items>
+		</SplitPane>
+	</children>
+</VBox>
