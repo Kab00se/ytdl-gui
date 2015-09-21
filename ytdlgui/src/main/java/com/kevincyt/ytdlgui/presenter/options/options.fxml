@@ -1,12 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="kabcmn.afterburnertest.presenter.options.OptionsPresenter">
-	<Label text="TESTING STUFF"></Label>
-	<Button fx:id="saveButton" text="Save"></Button>
-</AnchorPane>
+<TabPane xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.kevincyt.ytdlgui.presenter.options.OptionsPresenter">
+	<Tab text="Output" closable="false">
+		<VBox alignment="TOP_LEFT" spacing="10.0">
+			<CheckBox fx:id="extractAudioCheckBox" alignment="CENTER"
+				mnemonicParsing="false" text="Extract Audio Only" />
+			<TextField fx:id="outputFileTemplateField" minWidth="140.0"
+				prefWidth="250.0" promptText="File Template" />
+		</VBox>
+	</Tab>
+	<Tab text="Bandwidth / Quality" closable="false">
+		<VBox alignment="TOP_LEFT" spacing="10.0">
+			<children>
+				<HBox alignment="CENTER_LEFT" spacing="10.0">
+					<children>
+						<CheckBox fx:id="limitRateCheckBox" mnemonicParsing="false"
+							text="Max download rate" />
+						<TextField fx:id="limitRateField" prefWidth="85"
+							editable="false" promptText="Ex. 50K, 4.2M" />
+					</children>
+				</HBox>
+			</children>
+		</VBox>
+	</Tab>
+	<Tab text="Playlist" closable="false">
+		<VBox alignment="TOP_LEFT" spacing="10.0">
+			<HBox alignment="CENTER" spacing="10.0">
+				<children>
+					<Label alignment="CENTER" text="Range:" />
+					<TextField fx:id="rangeFromField" prefHeight="25.0"
+						prefWidth="45.0" promptText="From" />
+					<TextField fx:id="rangeToField" prefHeight="25.0"
+						prefWidth="45.0" promptText="To" />
+				</children>
+			</HBox>
+			<CheckBox fx:id="matchRegexCheckBox" mnemonicParsing="false"
+				text="Match Regex" />
+			<TextField fx:id="matchRegexField" promptText="Regular Expression" />
+			<CheckBox fx:id="rejectRegexCheckBox" alignment="CENTER"
+				mnemonicParsing="false" text="Reject Regex" />
+			<TextField fx:id="rejectRegexField" layoutX="20.0" layoutY="62.0"
+				promptText="Regular Expression" />
+		</VBox>
+	</Tab>
+</TabPane>
 

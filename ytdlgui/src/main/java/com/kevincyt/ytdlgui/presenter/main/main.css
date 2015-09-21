@@ -1,0 +1,15 @@
+.tab-pane{
+	-fx-padding: 5 10;
+}
+
+.button{
+	-fx-padding: 10;
+}
+
+.textfield{
+	-fx-padding: 10;
+}
+
+.tab{
+	-fx-padding: 10 15;
+}

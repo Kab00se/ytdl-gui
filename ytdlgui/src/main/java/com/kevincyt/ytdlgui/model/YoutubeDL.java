@@ -5,20 +5,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Deprecated
 public class YoutubeDL {
 	// VARS
 	protected final String filePath = System.getProperty("user.dir")
-			+ "/lib/ffmpeg/bin/youtube-dl";	// TODO: Needs to be in settings
+			+ "/lib/ffmpeg/bin/youtube-dl";
 
-	public YoutubeDLConfig config;
+	public YtdlDownloadConfiguration config;
 
 	// CONS
-	public YoutubeDL(YoutubeDLConfig config) {
+	public YoutubeDL(YtdlDownloadConfiguration config) {
 		this.config = config;
 	}
 
 	public YoutubeDL() {
-		this(new YoutubeDLConfig());
+		this(new YtdlDownloadConfiguration());
 	}
 
 	// METHODS
