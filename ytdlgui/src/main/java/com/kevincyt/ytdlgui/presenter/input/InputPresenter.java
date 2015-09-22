@@ -31,7 +31,7 @@ public class InputPresenter implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// Data bindings
 		directoryField.textProperty().bindBidirectional(
-				ytdlService.getSettings().getDownloadDirectoryStringProperty());
+				ytdlService.getSettings().downloadDirectoryStringProperty());
 	}
 
 	// BUTTON LOGIC

@@ -35,40 +35,65 @@ public class YtdlSettings {
 		maxConcurrentJobsProperty = new SimpleIntegerProperty();
 	}
 
-	public Property<String> getYoutubedlPathStringProperty() {
+	// Properties / Gets / Sets
+	public Property<String> youtubedlPathStringProperty() {
 		return youtubedlPathStringProperty;
 	}
 	
 	public String getYoutubedlPathString(){
-		return getYoutubedlPathStringProperty().getValue();
+		return youtubedlPathStringProperty().getValue();
+	}
+	
+	public void setYoutubedlPathString(String path){
+		youtubedlPathStringProperty().setValue(path);
 	}
 
-	public Property<String> getDownloadDirectoryStringProperty() {
+	public Property<String> downloadDirectoryStringProperty() {
 		return downloadDirectoryStringProperty;
 	}
 
 	public String getDownloadDirectoryString(){
-		return getDownloadDirectoryStringProperty().getValue();
+		return downloadDirectoryStringProperty().getValue();
 	}
 	
-	public Property<String> getFileTemplateProperty() {
+	public void setDownloadDirectoryString(String path){
+		downloadDirectoryStringProperty().setValue(path);
+	}
+	
+	public Property<String> fileTemplateProperty() {
 		return fileTemplateProperty;
 	}
 	
 	public String getFileTemplate(){
-		return getFileTemplateProperty().getValue();
+		return fileTemplateProperty().getValue();
+	}
+	
+	public void setFileTemplate(String template){
+		fileTemplateProperty().setValue(template);
 	}
 
-	public Property<Boolean> getUpdateOnStartProperty() {
+	public Property<Boolean> updateOnStartProperty() {
 		return updateOnStartProperty;
 	}
 	
 	public boolean getUpdateOnStart(){
-		return getUpdateOnStartProperty().getValue();
+		return updateOnStartProperty().getValue();
+	}
+	
+	public void setUpdateOnStart(boolean b){
+		updateOnStartProperty().setValue(b);
 	}
 
-	public Property<Number> getMaxConcurrentlJobsProperty() {
+	public Property<Number> maxConcurrentJobsProperty() {
 		return maxConcurrentJobsProperty;
+	}
+	
+	public int getMaxConcurrentJobs(){
+		return maxConcurrentJobsProperty().getValue().intValue();
+	}
+	
+	public void setMaxConcurrentJobs(int value){
+		maxConcurrentJobsProperty().setValue(value);
 	}
 	
 	

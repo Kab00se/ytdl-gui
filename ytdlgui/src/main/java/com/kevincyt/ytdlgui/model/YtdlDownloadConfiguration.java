@@ -135,59 +135,59 @@ public class YtdlDownloadConfiguration {
 	}
 
 	// Getters
-	public Property<Number> getPlaylistStartProperty() {
+	public Property<Number> playlistStartProperty() {
 		return playlistStartProperty;
 	}
 
-	public Property<Number> getPlaylistEndProperty() {
+	public Property<Number> playlistEndProperty() {
 		return playlistEndProperty;
 	}
 
-	public Property<Boolean> getMatchTitleOnProperty() {
+	public Property<Boolean> matchTitleProperty() {
 		return matchTitleOnProperty;
 	}
 
-	public Property<Boolean> getRejectTitleOnProperty() {
+	public Property<Boolean> rejectTitleProperty() {
 		return rejectTitleOnProperty;
 	}
 
-	public Property<String> getMatchTitleProperty() {
+	public Property<String> matchTitleStringProperty() {
 		return matchTitleProperty;
 	}
 
-	public Property<String> getRejectTitleProperty() {
+	public Property<String> rejectTitleStringProperty() {
 		return rejectTitleProperty;
 	}
 
-	public Property<Number> getDateModeProperty() {
+	public Property<Number> dateModeProperty() {
 		return dateModeProperty;
 	}
 
-	public Property<String> getDateStringProperty() {
+	public Property<String> dateStringProperty() {
 		return dateStringProperty;
 	}
 
-	public Property<Boolean> getPlaylistReverseProperty() {
+	public Property<Boolean> playlistReverseProperty() {
 		return playlistReverseProperty;
 	}
 
-	public Property<Boolean> getWithCappedRateProperty() {
+	public Property<Boolean> withCappedRateProperty() {
 		return withCappedRateProperty;
 	}
 
-	public Property<String> getRateLimitStringProperty() {
+	public Property<String> rateLimitStringProperty() {
 		return rateLimitStringProperty;
 	}
 
-	public Property<Boolean> getExtractAudioOnlyProperty() {
+	public Property<Boolean> extractAudioOnlyProperty() {
 		return extractAudioOnlyProperty;
 	}
 
-	public Property<Boolean> getIgnoreErrorsProperty() {
+	public Property<Boolean> ignoreErrorsProperty() {
 		return ignoreErrorsProperty;
 	}
 
-	public Property<Boolean> getIsVerboseProperty() {
+	public Property<Boolean> isVerboseProperty() {
 		return isVerboseProperty;
 	}
 
