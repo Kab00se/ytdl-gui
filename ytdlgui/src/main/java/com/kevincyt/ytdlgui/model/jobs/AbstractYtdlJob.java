@@ -1,21 +1,17 @@
 package com.kevincyt.ytdlgui.model.jobs;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.kevincyt.io.ParallellBufferedReader;
-import com.kevincyt.process.ProcessEndNotifier;
+import com.kevincyt.ytdlgui.model.jobs.state.IYtdlJobState;
+import com.kevincyt.ytdlgui.model.jobs.state.YtdlWaitingState;
 
 public abstract class AbstractYtdlJob {
 	// VARS
-	private YtdlJobState jobState;
+	private IYtdlJobState jobState; // Does most of the functions
 	private final List<String> arguments;
-	private Process process;
-	private ParallellBufferedReader reader;
 
 	private final List<IYtdlJobStateListener> listeners;
 
@@ -25,9 +21,15 @@ public abstract class AbstractYtdlJob {
 	 * validity. In the case of erroneous parameters, an exception will be thrown upon starting this process.
 	 */
 	public AbstractYtdlJob(String ytdlPathString, List<String> arguments) {
+		if(ytdlPathString == null || ytdlPathString.isEmpty()){
+			arguments.add(0, "youtube-dl");
+		} else{
+			arguments.add(0, ytdlPathString);
+		}
+		
 		this.arguments = arguments;
 		this.listeners = new ArrayList<IYtdlJobStateListener>();
-		this.setState(YtdlJobState.WAITING);
+		this.setState(new YtdlWaitingState(this));
 	}
 
 	/**
@@ -37,36 +39,36 @@ public abstract class AbstractYtdlJob {
 		this(ytdlPathString, Arrays.asList(arguments));
 	}
 
-	// METHODS
+	// METHODS - State delegated
 	/**
-	 * Creates and starts the process.
+	 * Creates and starts the process. If it has finished or has been cancelled this has no effect.
 	 */
 	public void start() {
-		try {
-			this.setState(YtdlJobState.RUNNING);
-			process = new ProcessBuilder().command(arguments).start();
-			reader = new ParallellBufferedReader(new BufferedReader(new InputStreamReader(
-					process.getInputStream())), new BufferedReader(new InputStreamReader(
-					process.getErrorStream())));
-			// Thread waits for end of the process. Triggers state switch to FINISHED.
-			new ProcessEndNotifier(process).addProcessEndListener(new ProcessStateListener(this));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		getState().start();
 	}
 
 	/**
-	 * If this job is running, it will be stopped (the backed process gets destroyed). Sets this jobstate to
-	 * cancelled afterwards. If this job has already finised this method has no effect.
+	 * If this job is running, it will be stopped (the backed process gets destroyed). Sets this job's state
+	 * to cancelled afterwards. If this job has already finished this method has no effect.
 	 */
 	public void cancel() {
-		if(getState() == YtdlJobState.FINISHED) {
-			return;
-		}
-		if(getProcess() != null) {
-			getProcess().destroy();
-		}
-		setState(YtdlJobState.CANCELLED);
+		getState().cancel();
+	}
+
+	/**
+	 * Finalizes this job.
+	 */
+	public void finish() {
+		getState().finish();
+	}
+
+	/**
+	 * @return A {@link ParallellBufferedReader} if the process has started/finished.
+	 * @throws IllegalStateException
+	 *             The job state has no reader available.
+	 */
+	public ParallellBufferedReader getReader() throws IllegalStateException {
+		return getState().getReader();
 	}
 
 	// OBSERVER
@@ -78,43 +80,43 @@ public abstract class AbstractYtdlJob {
 		this.listeners.remove(listener);
 	}
 
-	public void notifyJobStateChange() {
+	protected void notifyJobStateChange(IYtdlJobState oldState, IYtdlJobState newState) {
 		for (IYtdlJobStateListener listener : listeners) {
-			listener.onJobStateChanged(this, getState());
+			listener.onJobStateChanged(this, oldState, newState);
 		}
 	}
 
 	// GETS / SETS
-	public String getProcessArguments() {
+	public List<String> getArgumentsList() {
+		return arguments;
+	}
+
+	public String getArgumentsString() {
 		String result = "";
 		for (String arg : arguments) {
 			result += " " + arg;
 		}
-		return result;
+		return result.trim();
 	}
 
-	protected Process getProcess() {
-		return process;
-	}
-
-	public YtdlJobState getState() {
+	public IYtdlJobState getState() {
 		return jobState;
 	}
 
-	public void setState(YtdlJobState state) {
-		if(getState() == state) {
+	public void setState(IYtdlJobState newState) {
+		if(getState() == newState) {
 			return;
-		} // else
-		this.jobState = state;
-		notifyJobStateChange();
-	}
-
-	public ParallellBufferedReader getReader() {
-		if(getState().equals(YtdlJobState.RUNNING)) {
-			return reader;
-		} else {
-			return null;
 		}
+		IYtdlJobState oldState = getState();
+		this.jobState = newState;
+		notifyJobStateChange(oldState, newState);
 	}
 
+	public boolean isRunning(){
+		return getState().isRunning();
+	}
+	
+	public boolean isWaiting(){
+		return getState().isWaiting();
+	}
 }

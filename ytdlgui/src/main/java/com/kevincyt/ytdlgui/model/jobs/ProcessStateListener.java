@@ -1,18 +1,19 @@
 package com.kevincyt.ytdlgui.model.jobs;
 
 import com.kevincyt.process.IProcessEndListener;
+import com.kevincyt.ytdlgui.model.jobs.state.IYtdlJobState;
 
 public class ProcessStateListener implements IProcessEndListener {
 
-	private final AbstractYtdlJob job;
+	private final IYtdlJobState jobState;
 	
-	public ProcessStateListener(AbstractYtdlJob job) {
-		this.job = job;
+	public ProcessStateListener(IYtdlJobState state) {
+		this.jobState = state;
 	}
 	
 	@Override
 	public void onProcessEnd() {
-		job.setState(YtdlJobState.FINISHED);
+		jobState.finish();
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.kevincyt.ytdlgui.model.jobs.AbstractYtdlJob;
 import com.kevincyt.ytdlgui.model.jobs.IYtdlJobStateListener;
-import com.kevincyt.ytdlgui.model.jobs.YtdlJobState;
+import com.kevincyt.ytdlgui.model.jobs.state.IYtdlJobState;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -36,9 +36,7 @@ public class YtdlJobQueue {
 	}
 
 	public void removeYtdlJob(AbstractYtdlJob job) {
-		if(job.getState() != YtdlJobState.FINISHED || job.getState() != YtdlJobState.CANCELLED) {
-			job.cancel();
-		}
+		job.cancel();
 		this.jobList.remove(job);
 		activateJobs();
 	}
@@ -47,25 +45,27 @@ public class YtdlJobQueue {
 	 * Attempts to activate job(s) if there are slots for them.
 	 */
 	public void activateJobs() {
-		int inProgress = 0;
-		for (AbstractYtdlJob job : jobList) {
-			if(job.getState() == YtdlJobState.RUNNING) {
-				inProgress++;
+		int jobsInProgress = 0;
+		for(AbstractYtdlJob job : jobList){
+			if(job.isRunning()){
+				jobsInProgress++;
 			}
 		}
-		int openSlots = getMaxConcurrentJobs() - inProgress;
-		int index = 0;
-		while(openSlots > 0 && index < jobList.size()){
-			if(jobList.get(index).getState() == YtdlJobState.WAITING){
-				jobList.get(index).start();
+		int openSlots = getMaxConcurrentJobs() - jobsInProgress;
+		int idx = 0;
+		AbstractYtdlJob job;
+		while(idx < jobList.size() && openSlots > 0){
+			job = jobList.get(idx);
+			if(job.isWaiting()){
+				job.start();
 				openSlots--;
 			}
-			index++;
+			idx++;
 		}
 	}
 
 	// GETS & SETS
-	public Property<Number> getMaxConcurrentJobsProperty() {
+	public Property<Number> maxConcurrentJobsProperty() {
 		return this.maxConcurrentJobsProperty;
 	}
 
@@ -73,6 +73,7 @@ public class YtdlJobQueue {
 		return this.maxConcurrentJobsProperty.getValue().intValue();
 	}
 
+	// INNER CLASS
 	protected class QueueJobStateListener implements IYtdlJobStateListener{
 		private final YtdlJobQueue queue;
 		
@@ -81,8 +82,8 @@ public class YtdlJobQueue {
 		}
 
 		@Override
-		public void onJobStateChanged(AbstractYtdlJob job, YtdlJobState newState) {
-			// TODO: CHECK: Do I even need to do anything on job change?
+		public void onJobStateChanged(AbstractYtdlJob job, IYtdlJobState oldState, IYtdlJobState newState) {
+			queue.activateJobs();
 		}
 
 	}

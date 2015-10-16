@@ -11,7 +11,7 @@ public class ProcessEndNotifier extends Thread{
 	
 	public ProcessEndNotifier(Process process){
 		this.process = process;
-		this.listeners = new ArrayList<IProcessEndListener>();
+		this.listeners = new ArrayList<IProcessEndListener>(1);
 	}
 	
 	@Override

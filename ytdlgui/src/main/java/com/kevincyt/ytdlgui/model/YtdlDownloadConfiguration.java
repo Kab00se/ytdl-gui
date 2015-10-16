@@ -13,6 +13,9 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class YtdlDownloadConfiguration {
 	// VARS
+	// File and directory
+	private final Property<String> fileNameTemplateProperty;
+	private final Property<String> directoryStringProperty;
 	// Playlist options
 	public static final int DOWNLOAD_PLAYLIST_COMPLETE = -1;
 	private final Property<Number> playlistStartProperty;
@@ -43,7 +46,15 @@ public class YtdlDownloadConfiguration {
 	private final Property<Boolean> isVerboseProperty;
 
 	// CONSTRUCTORS
-	public YtdlDownloadConfiguration() {
+	/**
+	 * 
+	 * @param settings
+	 *            The {@link YtdlSettings} this download configuration is linked to.
+	 */
+	public YtdlDownloadConfiguration(YtdlSettings settings) {
+		fileNameTemplateProperty = settings.fileTemplateProperty();
+		directoryStringProperty = settings.downloadDirectoryStringProperty();
+		
 		playlistStartProperty = new SimpleIntegerProperty(DOWNLOAD_PLAYLIST_COMPLETE);
 		playlistEndProperty = new SimpleIntegerProperty(DOWNLOAD_PLAYLIST_COMPLETE);
 
@@ -68,12 +79,21 @@ public class YtdlDownloadConfiguration {
 	public List<String> getParameters() {
 		List<String> parameters = new ArrayList<String>();
 		// Load up parameters
+		getOutputParameters(parameters);
 		getPlaylistParameters(parameters);
 		getDownloadParameters(parameters);
 		getOtherParameters(parameters);
 		return parameters;
 	}
 
+	protected void getOutputParameters(final List<String> parameters){
+		parameters.add("-o");
+		if(!directoryStringProperty.getValue().endsWith("\\")){
+			directoryStringProperty.setValue(directoryStringProperty.getValue() + "\\");	
+		}
+		parameters.add(directoryStringProperty.getValue() + fileNameTemplateProperty.getValue());
+	}
+	
 	protected void getPlaylistParameters(final List<String> parameters) {
 		int startValue, endValue;
 		if((startValue = playlistStartProperty.getValue().intValue()) > 1) {
@@ -124,7 +144,7 @@ public class YtdlDownloadConfiguration {
 			parameters.add("--extract-audio");
 		}
 	}
-	
+
 	protected void getOtherParameters(final List<String> parameters) {
 		if(ignoreErrorsProperty.getValue()) {
 			parameters.add("--ignore-errors");
@@ -134,7 +154,7 @@ public class YtdlDownloadConfiguration {
 		}
 	}
 
-	// Getters
+	// Property getters
 	public Property<Number> playlistStartProperty() {
 		return playlistStartProperty;
 	}

@@ -12,6 +12,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import com.kevincyt.ytdlgui.io.YtdlSettingsProperties;
 import com.kevincyt.ytdlgui.model.YtdlDownloadConfiguration;
 import com.kevincyt.ytdlgui.model.YtdlJobQueue;
 import com.kevincyt.ytdlgui.model.YtdlService;
@@ -22,9 +23,11 @@ public class Launch extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO: Read and initialize YtdlSettings
-		YtdlSettings settings = new YtdlSettings();	// <----
-		YtdlService service = new YtdlService(settings, new YtdlDownloadConfiguration(), new YtdlJobQueue());
+		YtdlSettings settings = new YtdlSettingsProperties().readSettings();
+		YtdlDownloadConfiguration config = new YtdlDownloadConfiguration(settings);
+		YtdlJobQueue jobQueue = new YtdlJobQueue();
+		jobQueue.maxConcurrentJobsProperty().bind(settings.maxConcurrentJobsProperty());
+		YtdlService service = new YtdlService(settings, config, jobQueue);
 		LogManager.getLogger().info("YtdlService initialized.");
 		// Setup injection
 		Map<Object, Object> dataContext = new HashMap<Object, Object>();

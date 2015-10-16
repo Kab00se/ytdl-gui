@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 
+import com.kevincyt.ytdlgui.io.YtdlSettingsProperties;
 import com.kevincyt.ytdlgui.model.jobs.AbstractYtdlJob;
 import com.kevincyt.ytdlgui.model.jobs.YtdlDownload;
 import com.kevincyt.ytdlgui.model.jobs.YtdlUpdate;
@@ -38,6 +39,10 @@ public class YtdlService {
 		LogManager.getLogger().info("Update added.");
 		AbstractYtdlJob job = new YtdlUpdate(getSettings().getYoutubedlPathString());
 		getJobQueue().addYtdlJob(job);
+	}
+	
+	public void saveSettings(){
+		new YtdlSettingsProperties().writeSettings(getSettings());
 	}
 
 	// GETS & SETS

@@ -1,4 +1,4 @@
-package com.kevincyt.io;
+package com.kevincyt.ytdlgui.io;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,20 +12,24 @@ import org.apache.logging.log4j.LogManager;
 
 import com.kevincyt.ytdlgui.model.YtdlSettings;
 
-public class SettingsProperties {
+public class YtdlSettingsProperties {
 	// VARS
 	private final Path settingsPath;
 
 	// CONS
-	public SettingsProperties(Path settingsPath) {
+	public YtdlSettingsProperties(Path settingsPath) {
 		this.settingsPath = settingsPath;
 	}
 
-	public SettingsProperties() {
+	public YtdlSettingsProperties() {
 		this(Paths.get(System.getProperty("user.dir"), "settings.properties"));
 	}
 
 	// METHODS
+	/**
+	 * Reads settings from the properties file. If no properties file exists, one will be made and default
+	 * will be used.
+	 */
 	public YtdlSettings readSettings() {
 		YtdlSettings settings = new YtdlSettings();
 		Properties prop = new Properties();
