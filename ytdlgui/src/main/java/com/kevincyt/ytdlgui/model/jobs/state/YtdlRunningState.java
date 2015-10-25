@@ -12,19 +12,6 @@ public class YtdlRunningState extends AbstractYtdlJobState {
 	public YtdlRunningState(AbstractYtdlJob job, ParallellBufferedReader reader) {
 		super(job);
 		this.reader = reader;
-		// TODO: TEMP
-		try {
-			String line;
-			while ((line = getReader().readLine()) != null) {
-				System.out.println("Line: " + line);
-			}
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override

@@ -1,37 +1,44 @@
 package com.kevincyt.io;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Reads two {@link BufferedReader}s in parallel. Prioritizes the first reader over the second. Ie. Will only
- * read from the second reader if the first reader returns null.
+ * <p>
+ * Reads {@link BufferedReader}s in parallel by assigning each in its own thread and subsequently listening for lines as
+ * they are read. Implements observer pattern through which these lines can be obtained.
+ * </p>
+ * 
+ * <p>
+ * Note that the threads will not be started until {@link #start()} has been called.
+ * </p>
  */
 public class ParallellBufferedReader {
 	private final List<IBufferedReaderListener> listeners;
-	private final BufferedReader readerOne;
-	private final BufferedReader readerTwo;
-	private String lineOne;
-	private String lineTwo;
+	private ObservableBufferedReader[] observableReaders;
 
-	public ParallellBufferedReader(BufferedReader readerOne, BufferedReader readerTwo) {
+	public ParallellBufferedReader(BufferedReader... readers) {
+		observableReaders = new ObservableBufferedReader[readers.length];
 		this.listeners = new ArrayList<IBufferedReaderListener>();
-		ObservableBufferedReader obr = new ObservableBufferedReader(readerOne);
-		obr.addListener(new IBufferedReaderListener() {
-			
-			@Override
-			public void notifyLine(String line) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		this.readerOne = readerOne;
-		this.readerTwo = readerTwo;
-		lineOne = lineTwo = null;
+		IBufferedReaderListener brListener = new BufferedReaderListener(this);
+		ObservableBufferedReader obr;
+		for (int i = 0; i < readers.length; i++) {
+			obr = new ObservableBufferedReader(readers[i]);
+			observableReaders[i] = obr;
+			obr.addListener(brListener);
+		}
 	}
-	
+
+	/**
+	 * Starts the buffered reader threads.
+	 */
+	public void start() {
+		for(ObservableBufferedReader obr : observableReaders){
+			obr.start();
+		}
+	}
+
 	// Observer
 	public void addListener(IBufferedReaderListener listener) {
 		listeners.add(listener);
@@ -40,23 +47,25 @@ public class ParallellBufferedReader {
 	public void removeListener(IBufferedReaderListener listener) {
 		listeners.remove(listener);
 	}
-	
-	public void notifyListeners(String line){
-		for(IBufferedReaderListener listener : listeners){
+
+	public void notifyListeners(String line) {
+		for (IBufferedReaderListener listener : listeners) {
 			listener.notifyLine(line);
 		}
 	}
 
-	public String readLine() throws IOException {
-		// TODO: ParallellBufferedReader is reading serially (one > second)
-		lineOne = readerOne.readLine();
-		if(lineOne != null) {
-			return lineOne;
+	private class BufferedReaderListener implements IBufferedReaderListener {
+
+		private final ParallellBufferedReader pbr;
+
+		public BufferedReaderListener(ParallellBufferedReader pbr) {
+			this.pbr = pbr;
 		}
-		lineTwo = readerTwo.readLine();
-		if(lineTwo != null) {
-			return lineTwo;
+
+		@Override
+		public void notifyLine(String line) {
+			pbr.notifyListeners(line);
 		}
-		return null;
+
 	}
 }

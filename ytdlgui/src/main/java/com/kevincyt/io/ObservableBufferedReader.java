@@ -36,13 +36,6 @@ public class ObservableBufferedReader extends Thread {
 		try {
 			String line;
 			while ((line = reader.readLine()) != null) {
-				// TODO: TEMP
-				try {
-					Thread.sleep((long) Math.random()*1000000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				notifyListeners(line);
 			}
 		} catch (IOException e) {
