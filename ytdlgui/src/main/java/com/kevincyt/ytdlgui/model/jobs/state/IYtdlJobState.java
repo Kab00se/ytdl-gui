@@ -1,6 +1,6 @@
 package com.kevincyt.ytdlgui.model.jobs.state;
 
-import com.kevincyt.io.ParallellBufferedReader;
+import com.kevincyt.io.ParallelBufferedReader;
 
 public interface IYtdlJobState {
 
@@ -30,12 +30,12 @@ public interface IYtdlJobState {
 	public boolean isWaiting();
 	
 	/**
-	 * Returns the {@link ParallellBufferedReader}, if available. If the job has yet to be run an exception is
+	 * Returns the {@link ParallelBufferedReader}, if available. If the job has yet to be run an exception is
 	 * thrown instead.
 	 * 
 	 * @throws IllegalStateException
 	 *             The current state has not started/finished yet.
 	 */
-	public ParallellBufferedReader getReader() throws IllegalStateException;
+	public ParallelBufferedReader getReader() throws IllegalStateException;
 
 }

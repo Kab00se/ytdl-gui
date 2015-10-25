@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import com.kevincyt.io.ParallellBufferedReader;
+import com.kevincyt.io.ParallelBufferedReader;
 import com.kevincyt.ytdlgui.model.jobs.state.IYtdlJobState;
 import com.kevincyt.ytdlgui.model.jobs.state.YtdlWaitingState;
 
@@ -78,11 +78,11 @@ public abstract class AbstractYtdlJob {
 	}
 
 	/**
-	 * @return A {@link ParallellBufferedReader} if the process has started/finished.
+	 * @return A {@link ParallelBufferedReader} if the process has started/finished.
 	 * @throws IllegalStateException
 	 *             The job state has no reader available.
 	 */
-	public ParallellBufferedReader getReader() throws IllegalStateException {
+	public ParallelBufferedReader getReader() throws IllegalStateException {
 		return getState().getReader();
 	}
 

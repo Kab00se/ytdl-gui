@@ -2,14 +2,14 @@ package com.kevincyt.ytdlgui.model.jobs.state;
 
 import java.io.IOException;
 
-import com.kevincyt.io.ParallellBufferedReader;
+import com.kevincyt.io.ParallelBufferedReader;
 import com.kevincyt.ytdlgui.model.jobs.AbstractYtdlJob;
 
 public class YtdlRunningState extends AbstractYtdlJobState {
 	// VARS
-	private final ParallellBufferedReader reader;
+	private final ParallelBufferedReader reader;
 
-	public YtdlRunningState(AbstractYtdlJob job, ParallellBufferedReader reader) {
+	public YtdlRunningState(AbstractYtdlJob job, ParallelBufferedReader reader) {
 		super(job);
 		this.reader = reader;
 	}
@@ -30,7 +30,7 @@ public class YtdlRunningState extends AbstractYtdlJobState {
 	}
 
 	@Override
-	public ParallellBufferedReader getReader() throws IllegalStateException {
+	public ParallelBufferedReader getReader() throws IllegalStateException {
 		return reader;
 	}
 

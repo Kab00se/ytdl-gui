@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.kevincyt.io.ParallellBufferedReader;
+import com.kevincyt.io.ParallelBufferedReader;
 import com.kevincyt.process.ProcessEndNotifier;
 import com.kevincyt.ytdlgui.model.jobs.AbstractYtdlJob;
 import com.kevincyt.ytdlgui.model.jobs.ProcessStateListener;
@@ -23,7 +23,7 @@ public class YtdlWaitingState extends AbstractYtdlJobState {
 		try {
 			Process process = new ProcessBuilder().command(getJob().getArgumentsList()).start();
 			// Error stream gets priority
-			ParallellBufferedReader reader = new ParallellBufferedReader(new BufferedReader(
+			ParallelBufferedReader reader = new ParallelBufferedReader(new BufferedReader(
 					new InputStreamReader(process.getErrorStream())), new BufferedReader(
 							new InputStreamReader(process.getInputStream())));
 			IYtdlJobState newState = new YtdlRunningState(getJob(), reader);
@@ -54,7 +54,7 @@ public class YtdlWaitingState extends AbstractYtdlJobState {
 	}
 
 	@Override
-	public ParallellBufferedReader getReader() throws IllegalStateException {
+	public ParallelBufferedReader getReader() throws IllegalStateException {
 		throw new IllegalStateException("No reader available, job is waiting to be run");
 	}
 

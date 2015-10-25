@@ -3,6 +3,7 @@ package com.kevincyt.io;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 /**
  * <p>
@@ -14,11 +15,11 @@ import java.util.List;
  * Note that the threads will not be started until {@link #start()} has been called.
  * </p>
  */
-public class ParallellBufferedReader {
+public class ParallelBufferedReader {
 	private final List<IBufferedReaderListener> listeners;
 	private ObservableBufferedReader[] observableReaders;
 
-	public ParallellBufferedReader(BufferedReader... readers) {
+	public ParallelBufferedReader(BufferedReader... readers) {
 		observableReaders = new ObservableBufferedReader[readers.length];
 		this.listeners = new ArrayList<IBufferedReaderListener>();
 		IBufferedReaderListener brListener = new BufferedReaderListener(this);
@@ -31,10 +32,21 @@ public class ParallellBufferedReader {
 	}
 
 	/**
-	 * Starts the buffered reader threads.
+	 * Starts the buffered readers by passing them to the given {@link ExecutorService}. This does NOT guarantee that
+	 * the buffered readers are run (if the executor rejects them) or run completely in parallel (Not enough threads to
+	 * run them all at once).
+	 */
+	public void start(ExecutorService executor) {
+		for (ObservableBufferedReader obr : observableReaders) {
+			executor.execute(obr);
+		}
+	}
+
+	/**
+	 * Starts the readers by spawning a thread for each.
 	 */
 	public void start() {
-		for(ObservableBufferedReader obr : observableReaders){
+		for (ObservableBufferedReader obr : observableReaders) {
 			new Thread(obr).start();
 		}
 	}
@@ -56,9 +68,9 @@ public class ParallellBufferedReader {
 
 	private class BufferedReaderListener implements IBufferedReaderListener {
 
-		private final ParallellBufferedReader pbr;
+		private final ParallelBufferedReader pbr;
 
-		public BufferedReaderListener(ParallellBufferedReader pbr) {
+		public BufferedReaderListener(ParallelBufferedReader pbr) {
 			this.pbr = pbr;
 		}
 
