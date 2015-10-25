@@ -35,7 +35,7 @@ public class ParallellBufferedReader {
 	 */
 	public void start() {
 		for(ObservableBufferedReader obr : observableReaders){
-			obr.start();
+			new Thread(obr).start();
 		}
 	}
 

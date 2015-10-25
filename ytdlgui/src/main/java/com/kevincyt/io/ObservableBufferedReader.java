@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObservableBufferedReader extends Thread {
+public class ObservableBufferedReader implements Runnable {
 	// VARS
 	private final BufferedReader reader;
 	private final List<IBufferedReaderListener> listeners;
@@ -23,9 +23,9 @@ public class ObservableBufferedReader extends Thread {
 	public void removeListener(IBufferedReaderListener listener) {
 		listeners.remove(listener);
 	}
-	
-	public void notifyListeners(String line){
-		for(IBufferedReaderListener listener : listeners){
+
+	public void notifyListeners(String line) {
+		for (IBufferedReaderListener listener : listeners) {
 			listener.notifyLine(line);
 		}
 	}
