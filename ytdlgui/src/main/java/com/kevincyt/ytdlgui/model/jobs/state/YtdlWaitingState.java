@@ -22,7 +22,6 @@ public class YtdlWaitingState extends AbstractYtdlJobState {
 	public void start() {
 		try {
 			Process process = new ProcessBuilder().command(getJob().getArgumentsList()).start();
-			// Error stream gets priority
 			ParallelBufferedReader reader = new ParallelBufferedReader(new BufferedReader(
 					new InputStreamReader(process.getErrorStream())), new BufferedReader(
 							new InputStreamReader(process.getInputStream())));
@@ -31,7 +30,7 @@ public class YtdlWaitingState extends AbstractYtdlJobState {
 			// Thread waits for end of the process. Triggers state switch.
 			ProcessEndNotifier pen = new ProcessEndNotifier(process);
 			pen.addProcessEndListener(new ProcessStateListener(newState));
-			pen.run();
+			new Thread(pen).start();		// TODO: Use ThreadPool that will be put somewhere
 		} catch (IOException e) {
 			// TODO: If youtube-dl is not in path, error comes here (IOException)
 			e.printStackTrace();

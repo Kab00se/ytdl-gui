@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 
-public class ProcessEndNotifier extends Thread{
+public class ProcessEndNotifier implements Runnable{
 	private final List<IProcessEndListener> listeners;
 	private final Process process;
 	
