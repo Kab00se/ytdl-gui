@@ -12,13 +12,14 @@ import com.kevincyt.ytdlgui.model.jobs.YtdlUpdate;
 
 public class YtdlService {
 	// VARS
+	// TODO: Highly TEMP. Should be in a factory. (Perhaps YtdlQueue should be responsible for spawning them).
+	@Deprecated public static int nextID = 1;
 	private final YtdlDownloadConfiguration downloadConfig;
 	private final YtdlSettings settings;
 	private final YtdlJobQueue jobQueue;
 
 	// CONS
-	public YtdlService(YtdlSettings settings, YtdlDownloadConfiguration config,
-			YtdlJobQueue jobQueue) {
+	public YtdlService(YtdlSettings settings, YtdlDownloadConfiguration config, YtdlJobQueue jobQueue) {
 		this.settings = settings;
 		this.downloadConfig = config;
 		this.jobQueue = jobQueue;
@@ -30,18 +31,17 @@ public class YtdlService {
 		List<String> args = new ArrayList<String>();
 		args.add(url);
 		args.addAll(getDownloadConfig().getParameters());
-		AbstractYtdlJob job = new YtdlDownload(getSettings().getYoutubedlPathString(),
-				args);
+		AbstractYtdlJob job = new YtdlDownload(nextID++, getSettings().getYoutubedlPathString(), args);
 		getJobQueue().addYtdlJob(job);
 	}
 
 	public void update() {
 		LogManager.getLogger().info("Update added.");
-		AbstractYtdlJob job = new YtdlUpdate(getSettings().getYoutubedlPathString());
+		AbstractYtdlJob job = new YtdlUpdate(nextID++, getSettings().getYoutubedlPathString());
 		getJobQueue().addYtdlJob(job);
 	}
-	
-	public void saveSettings(){
+
+	public void saveSettings() {
 		new YtdlSettingsProperties().writeSettings(getSettings());
 	}
 

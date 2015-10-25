@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import com.kevincyt.io.ParallellBufferedReader;
 import com.kevincyt.ytdlgui.model.jobs.state.IYtdlJobState;
 import com.kevincyt.ytdlgui.model.jobs.state.YtdlWaitingState;
@@ -12,15 +19,19 @@ public abstract class AbstractYtdlJob {
 	// VARS
 	private IYtdlJobState jobState; // Does most of the functions
 	private final List<String> arguments;
-
+	// VARS - Observer List
 	private final List<IYtdlJobStateListener> listeners;
-
+	// VARS - Properties
+	private final IntegerProperty id;
+	private final DoubleProperty progress;
+	private final StringProperty argumentString;
+	
 	// CONS
 	/**
 	 * Creates a YtdlProcess that will be run with the given arguments. The parameters will not be checked for
 	 * validity. In the case of erroneous parameters, an exception will be thrown upon starting this process.
 	 */
-	public AbstractYtdlJob(String ytdlPathString, List<String> arguments) {
+	public AbstractYtdlJob(int id, String ytdlPathString, List<String> arguments) {
 		if(ytdlPathString == null || ytdlPathString.isEmpty()){
 			arguments.add(0, "youtube-dl");
 		} else{
@@ -30,13 +41,17 @@ public abstract class AbstractYtdlJob {
 		this.arguments = arguments;
 		this.listeners = new ArrayList<IYtdlJobStateListener>();
 		this.setState(new YtdlWaitingState(this));
+		
+		this.id = new SimpleIntegerProperty(id);
+		this.progress = new SimpleDoubleProperty(0.0);
+		this.argumentString = new SimpleStringProperty(getArgumentsString());
 	}
 
 	/**
 	 * @see #AbstractYtdlProcess(List)
 	 */
-	public AbstractYtdlJob(String ytdlPathString, String... arguments) {
-		this(ytdlPathString, Arrays.asList(arguments));
+	public AbstractYtdlJob(int id, String ytdlPathString, String... arguments) {
+		this(id, ytdlPathString, Arrays.asList(arguments));
 	}
 
 	// METHODS - State delegated
@@ -91,6 +106,7 @@ public abstract class AbstractYtdlJob {
 		return arguments;
 	}
 
+	@Deprecated
 	public String getArgumentsString() {
 		String result = "";
 		for (String arg : arguments) {
@@ -118,5 +134,38 @@ public abstract class AbstractYtdlJob {
 	
 	public boolean isWaiting(){
 		return getState().isWaiting();
+	}
+	
+	// Properties
+	public IntegerProperty idProperty(){
+		return id;
+	}
+	
+	public int getId(){
+		return idProperty().get();
+	}
+	
+	public DoubleProperty progressProperty(){
+		return progress;
+	}
+	
+	public double getProgress(){
+		return progressProperty().get();
+	}
+	
+	public void setProgress(double value){
+		progressProperty().set(value);
+	}
+	
+	public StringProperty argumentStringProperty(){
+		return argumentString;
+	}
+	
+	public String getArgumentString(){
+		return argumentStringProperty().get();
+	}
+	
+	public void setArgumentString(String value){
+		argumentStringProperty().set(value);
 	}
 }

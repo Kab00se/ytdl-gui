@@ -1,7 +1,5 @@
 package com.kevincyt.ytdlgui.model;
 
-import java.util.List;
-
 import com.kevincyt.ytdlgui.model.jobs.AbstractYtdlJob;
 import com.kevincyt.ytdlgui.model.jobs.IYtdlJobStateListener;
 import com.kevincyt.ytdlgui.model.jobs.state.IYtdlJobState;
@@ -9,13 +7,14 @@ import com.kevincyt.ytdlgui.model.jobs.state.IYtdlJobState;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 // TODO: EXTRA: update has to override / block normal download jobs.
 
 public class YtdlJobQueue {
 	// VARS
 	private final Property<Number> maxConcurrentJobsProperty;
-	private final List<AbstractYtdlJob> jobList;
+	private final ObservableList<AbstractYtdlJob> jobList;
 	private final QueueJobStateListener jobStateListener;
 
 	// CONS
@@ -65,6 +64,10 @@ public class YtdlJobQueue {
 	}
 
 	// GETS & SETS
+	public ObservableList<AbstractYtdlJob> getJobList() {
+		return jobList;
+	}
+	
 	public Property<Number> maxConcurrentJobsProperty() {
 		return this.maxConcurrentJobsProperty;
 	}
@@ -87,4 +90,6 @@ public class YtdlJobQueue {
 		}
 
 	}
+
+	
 }

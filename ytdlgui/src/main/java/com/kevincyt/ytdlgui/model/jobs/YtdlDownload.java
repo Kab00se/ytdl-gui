@@ -5,12 +5,12 @@ import java.util.List;
 
 public class YtdlDownload extends AbstractYtdlJob {
 	
-	public YtdlDownload(String ytdlPathString, List<String> arguments){
-		super(ytdlPathString, arguments);
+	public YtdlDownload(int id, String ytdlPathString, List<String> arguments){
+		super(id, ytdlPathString, arguments);
 	}
 	
-	public YtdlDownload(String ytdlPathString, String... arguments){
-		this(ytdlPathString, Arrays.asList(arguments));
+	public YtdlDownload(int id, String ytdlPathString, String... arguments){
+		this(id, ytdlPathString, Arrays.asList(arguments));
 	}
 
 }
