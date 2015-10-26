@@ -1,7 +1,5 @@
 package com.kevincyt.ytdlgui.model.jobs.state;
 
-import java.io.IOException;
-
 import com.kevincyt.io.ParallelBufferedReader;
 import com.kevincyt.ytdlgui.model.jobs.AbstractYtdlJob;
 
@@ -27,7 +25,7 @@ public class YtdlRunningState extends AbstractYtdlJobState {
 
 	@Override
 	public void finish() throws IllegalStateException {
-		getJob().setState(new YtdlFinishedState(getJob(), reader));
+		getJob().setState(new YtdlFinishedState(getJob()));
 	}
 
 	public ParallelBufferedReader getReader(){

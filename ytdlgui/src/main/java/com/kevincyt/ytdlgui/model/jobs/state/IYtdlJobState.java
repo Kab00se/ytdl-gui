@@ -1,7 +1,5 @@
 package com.kevincyt.ytdlgui.model.jobs.state;
 
-import com.kevincyt.io.ParallelBufferedReader;
-
 public interface IYtdlJobState {
 
 	/**

@@ -11,7 +11,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import com.kevincyt.io.ParallelBufferedReader;
 import com.kevincyt.ytdlgui.model.jobs.state.IYtdlJobState;
 import com.kevincyt.ytdlgui.model.jobs.state.YtdlWaitingState;
 

@@ -7,7 +7,6 @@ import javax.inject.Inject;
 
 import com.kevincyt.ytdlgui.model.YtdlService;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 

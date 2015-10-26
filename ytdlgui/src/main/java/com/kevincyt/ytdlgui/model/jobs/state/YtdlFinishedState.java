@@ -4,12 +4,8 @@ import com.kevincyt.io.ParallelBufferedReader;
 import com.kevincyt.ytdlgui.model.jobs.AbstractYtdlJob;
 
 public class YtdlFinishedState extends AbstractYtdlJobState {
-	// VARS
-	private final ParallelBufferedReader reader;
-	
-	public YtdlFinishedState(AbstractYtdlJob job, ParallelBufferedReader reader) {
+	public YtdlFinishedState(AbstractYtdlJob job) {
 		super(job);
-		this.reader = reader;
 	}
 
 	@Override

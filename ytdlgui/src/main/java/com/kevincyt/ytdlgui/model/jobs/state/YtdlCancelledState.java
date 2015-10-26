@@ -1,6 +1,5 @@
 package com.kevincyt.ytdlgui.model.jobs.state;
 
-import com.kevincyt.io.ParallelBufferedReader;
 import com.kevincyt.ytdlgui.model.jobs.AbstractYtdlJob;
 
 public class YtdlCancelledState extends AbstractYtdlJobState {
