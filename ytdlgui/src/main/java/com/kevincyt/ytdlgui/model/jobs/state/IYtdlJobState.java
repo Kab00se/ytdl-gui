@@ -28,15 +28,5 @@ public interface IYtdlJobState {
 
 	public boolean isRunning();
 	public boolean isWaiting();
-	
-	/**
-	 * Returns the {@link ParallelBufferedReader}, if available. If the job has yet to be run an exception is
-	 * thrown instead.
-	 * 
-	 * @throws IllegalStateException
-	 *             The current state has not started/finished yet.
-	 */
-	@Deprecated
-	public ParallelBufferedReader getReader() throws IllegalStateException;
 
 }

@@ -53,9 +53,4 @@ public class YtdlWaitingState extends AbstractYtdlJobState {
 		return true;
 	}
 
-	@Override
-	public ParallelBufferedReader getReader() throws IllegalStateException {
-		throw new IllegalStateException("No reader available, job is waiting to be run");
-	}
-
 }

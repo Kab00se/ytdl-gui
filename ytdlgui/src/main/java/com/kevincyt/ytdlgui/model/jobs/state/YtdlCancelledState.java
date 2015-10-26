@@ -24,9 +24,4 @@ public class YtdlCancelledState extends AbstractYtdlJobState {
 		throw new IllegalStateException("Process is cancelled");
 	}
 
-	@Override
-	public ParallelBufferedReader getReader() throws IllegalStateException {
-		throw new IllegalStateException("Process is cancelled");
-	}
-
 }

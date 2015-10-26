@@ -77,15 +77,6 @@ public abstract class AbstractYtdlJob {
 		getState().finish();
 	}
 
-	/**
-	 * @return A {@link ParallelBufferedReader} if the process has started/finished.
-	 * @throws IllegalStateException
-	 *             The job state has no reader available.
-	 */
-	public ParallelBufferedReader getReader() throws IllegalStateException {
-		return getState().getReader();
-	}
-
 	// OBSERVER
 	public void addJobStateListener(IYtdlJobStateListener listener) {
 		this.listeners.add(listener);

@@ -27,9 +27,4 @@ public class YtdlFinishedState extends AbstractYtdlJobState {
 		// Already finished.
 	}
 
-	@Override
-	public ParallelBufferedReader getReader() throws IllegalStateException {
-		return reader;
-	}
-
 }

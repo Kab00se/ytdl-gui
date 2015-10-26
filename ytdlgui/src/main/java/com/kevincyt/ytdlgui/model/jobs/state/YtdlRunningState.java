@@ -12,6 +12,7 @@ public class YtdlRunningState extends AbstractYtdlJobState {
 	public YtdlRunningState(AbstractYtdlJob job, ParallelBufferedReader reader) {
 		super(job);
 		this.reader = reader;
+		// TODO: Setup listener to the reader to update properties (that are to be added)
 	}
 
 	@Override
@@ -29,8 +30,7 @@ public class YtdlRunningState extends AbstractYtdlJobState {
 		getJob().setState(new YtdlFinishedState(getJob(), reader));
 	}
 
-	@Override
-	public ParallelBufferedReader getReader() throws IllegalStateException {
+	public ParallelBufferedReader getReader(){
 		return reader;
 	}
 
