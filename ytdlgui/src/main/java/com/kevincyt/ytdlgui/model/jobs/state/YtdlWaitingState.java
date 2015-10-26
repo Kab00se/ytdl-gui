@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.kevincyt.concurrency.ThreadPoolManager;
 import com.kevincyt.io.ParallelBufferedReader;
 import com.kevincyt.process.ProcessEndNotifier;
 import com.kevincyt.ytdlgui.model.jobs.AbstractYtdlJob;
@@ -30,7 +31,7 @@ public class YtdlWaitingState extends AbstractYtdlJobState {
 			// Thread waits for end of the process. Triggers state switch.
 			ProcessEndNotifier pen = new ProcessEndNotifier(process);
 			pen.addProcessEndListener(new ProcessStateListener(newState));
-			new Thread(pen).start();		// TODO: Use ThreadPool that will be put somewhere
+			ThreadPoolManager.getInstance().getExecutor().execute(pen);
 		} catch (IOException e) {
 			// TODO: If youtube-dl is not in path, error comes here (IOException)
 			e.printStackTrace();

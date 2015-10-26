@@ -36,6 +36,7 @@ public interface IYtdlJobState {
 	 * @throws IllegalStateException
 	 *             The current state has not started/finished yet.
 	 */
+	@Deprecated
 	public ParallelBufferedReader getReader() throws IllegalStateException;
 
 }
