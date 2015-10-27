@@ -4,9 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import javafx.application.Platform;
+
 import com.kevincyt.concurrency.ThreadPoolManager;
 import com.kevincyt.io.ParallelBufferedReader;
 import com.kevincyt.process.ProcessEndNotifier;
+import com.kevincyt.ytdlgui.customfx.PopupStub;
 import com.kevincyt.ytdlgui.model.jobs.AbstractYtdlJob;
 import com.kevincyt.ytdlgui.model.jobs.ProcessStateListener;
 

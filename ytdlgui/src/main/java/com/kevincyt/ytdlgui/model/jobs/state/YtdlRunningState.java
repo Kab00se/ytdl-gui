@@ -1,5 +1,6 @@
 package com.kevincyt.ytdlgui.model.jobs.state;
 
+import com.kevincyt.io.IBufferedReaderListener;
 import com.kevincyt.io.ParallelBufferedReader;
 import com.kevincyt.ytdlgui.model.jobs.AbstractYtdlJob;
 
@@ -10,7 +11,7 @@ public class YtdlRunningState extends AbstractYtdlJobState {
 	public YtdlRunningState(AbstractYtdlJob job, ParallelBufferedReader reader) {
 		super(job);
 		this.reader = reader;
-		// TODO: Setup listener to the reader to update properties (that are to be added)
+		reader.addListener(new YtdlProcessReaderListener(this));
 	}
 
 	@Override
@@ -35,5 +36,19 @@ public class YtdlRunningState extends AbstractYtdlJobState {
 	@Override
 	public boolean isRunning() {
 		return true;
+	}
+	
+	private class YtdlProcessReaderListener implements IBufferedReaderListener{
+		private final YtdlRunningState context;
+		
+		private YtdlProcessReaderListener(YtdlRunningState context) {
+			this.context = context;
+		}
+		
+		@Override
+		public void notifyLine(String line) {
+			// TODO UPDATE CONTEXT PROGRESS BASED ON LINE
+		}
+		
 	}
 }

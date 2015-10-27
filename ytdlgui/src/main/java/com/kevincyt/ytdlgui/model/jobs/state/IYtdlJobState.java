@@ -11,13 +11,12 @@ public interface IYtdlJobState {
 	public void start() throws IllegalStateException;
 
 	/**
-	 * Cancels the job, regardless of the current state. Note that this kills the process and reader (if
-	 * available).
+	 * Cancels the job, regardless of the current state. Note that this kills the process (if available).
 	 */
 	public void cancel();
 
 	/**
-	 * Finalizes the job, releasing the process and reader objects if available.
+	 * Finalizes the job, releasing the process objects if available.
 	 * 
 	 * @throws IllegalStateException
 	 *             The current job cannot finish yet.
@@ -25,6 +24,7 @@ public interface IYtdlJobState {
 	public void finish() throws IllegalStateException;
 
 	public boolean isRunning();
+
 	public boolean isWaiting();
 
 }
