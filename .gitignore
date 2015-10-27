@@ -14,3 +14,4 @@ hs_err_pid*
 ytdlgui/.classpath
 *.prefs
 *.log
+ytdlgui/settings.properties
